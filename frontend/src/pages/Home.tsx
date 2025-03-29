@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import BarLoader from "react-spinners/BarLoader";
 
 // api calls
 import getAllProducts from "@/api/getAllProducts";
@@ -12,7 +13,7 @@ import NewsletterBox from "@/components/NewsletterBox";
 import Title from "@/components/Title";
 
 const Home = () => {
-  const productsPromise = getAllProducts(0, "", 20, 0);
+  const productsPromise = getAllProducts(0, "", 20, 0, "");
 
   return (
     <>
@@ -35,7 +36,17 @@ const Home = () => {
           </div>
         )}
       >
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center h-full">
+              <BarLoader
+                color="gray"
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+          }
+        >
           <LatestCollection productsPromise={productsPromise} />
         </Suspense>
       </ErrorBoundary>

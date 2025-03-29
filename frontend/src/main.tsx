@@ -14,6 +14,7 @@ import Login from "./pages/Login.tsx";
 import Orders from "./pages/Orders.tsx";
 import PlaceOrder from "./pages/PlaceOrder.tsx";
 import Product from "./pages/Product.tsx";
+import ShopContextProvider from "./context/ShopContext.tsx";
 
 const router = createBrowserRouter([
   {
@@ -29,13 +30,15 @@ const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "orders", element: <Orders /> },
       { path: "place-order", element: <PlaceOrder /> },
-      { path: "product", element: <Product /> },
+      { path: "product/:productId", element: <Product /> },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ShopContextProvider>
+      <RouterProvider router={router} />
+    </ShopContextProvider>
   </StrictMode>
 );

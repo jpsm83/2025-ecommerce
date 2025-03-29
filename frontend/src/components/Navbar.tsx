@@ -1,16 +1,30 @@
 import { Link, NavLink } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Search, User, ShoppingBasket, Menu, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import logoImage from "../assets/shopify-log.png";
+import { ShopContext } from "@/context/ShopContext";
 
 export const Navbar = () => {
   const [menuBurgerVisible, setMenuBurgerVisible] = useState<boolean>(false);
 
+  const shopContext = useContext(ShopContext);
+
+  if (!shopContext) {
+    throw new Error("ShopContext is not provided");
+  }
+
+  const { setShowSearch, setSearch } = shopContext;
+
   return (
     <div className="flex justify-between items-center pr-10">
       <Link to="/">
-        <img loading="lazy" src={logoImage} alt="Zara" className="h-[40px] m-2" />
+        <img
+          loading="lazy"
+          src={logoImage}
+          alt="Zara"
+          className="h-[40px] m-2"
+        />
       </Link>
       <ul className="gap-2 hidden md:flex">
         <NavLink to="./" className="flex flex-col gap-1 items-center">
@@ -31,7 +45,14 @@ export const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-6">
-        <Search size={20} className="text-gray-700 cursor-pointer" />
+        <Search
+          size={20}
+          className="text-gray-700 cursor-pointer"
+          onClick={() => {
+            setShowSearch(true);
+            setSearch("");
+          }}
+        />
         <div className="group relative">
           <User size={20} className="text-gray-700 cursor-pointer" />
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">

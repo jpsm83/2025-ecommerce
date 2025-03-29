@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState, JSX } from "react";
+import { Suspense, useEffect, useState, JSX, useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 // api calls
@@ -9,27 +9,50 @@ import Title from "@/components/Title";
 import LatestCollection from "@/components/LatestCollection";
 import { categories } from "@/lib/enuns";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { ShopContext } from "@/context/ShopContext";
+import BarLoader from "react-spinners/BarLoader";
 
 const Collection = () => {
+  const shopContext = useContext(ShopContext);
+
+  if (!shopContext) {
+    throw new Error("ShopContext is not provided");
+  }
+
+  const { search } = shopContext;
+
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [dataJsx, setDataJsx] = useState<JSX.Element | null>(null);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams(); // initialize the search params hook
   const navigate = useNavigate();
 
-  const selectedCategory = (searchParams.get("category") as string) || "any";
-  const selectedSorted = (searchParams.get("sorted") as string) || "relevant";
+  // get initial values
+  const selectedCategory = searchParams.get("category") || "any";
+  const selectedSorted = searchParams.get("sorted") || "relevant";
+  const selectedTitle = search.trim() !== "" ? search : "";
 
-  // Update the URL if "category" or "sorted" params are missing or invalid
   useEffect(() => {
-    if (!searchParams.get("category") || !searchParams.get("sorted")) {
-      const params = new URLSearchParams(searchParams);
-      if (!params.get("category")) params.set("category", "any");
-      if (!params.get("sorted")) params.set("sorted", "relevant");
+    const params = new URLSearchParams(searchParams);
 
-      navigate(`?${params.toString()}`, { replace: true });
+    params.set("category", selectedCategory);
+    params.set("sorted", selectedSorted);
+
+    if (selectedTitle) {
+      params.set("title", selectedTitle);
+    } else {
+      params.delete("title"); // Remove "title" when search is empty
     }
-  }, [searchParams, navigate]);
+
+    navigate(`?${params.toString()}`, { replace: true });
+  }, [
+    searchParams,
+    navigate,
+    search,
+    selectedCategory,
+    selectedSorted,
+    selectedTitle,
+  ]); // Include search to react to changes
 
   // Fetch products based on category and sorting
   useEffect(() => {
@@ -37,7 +60,8 @@ const Collection = () => {
       0,
       selectedCategory,
       20,
-      0
+      0,
+      selectedTitle
     );
 
     setDataJsx(
@@ -46,7 +70,7 @@ const Collection = () => {
         sort={selectedSorted}
       />
     );
-  }, [selectedCategory, selectedSorted]);
+  }, [selectedCategory, selectedSorted, selectedTitle]);
 
   // Handle category and sorting change
   const handleFilterChange = (newCategory: string, newSorted: string) => {
@@ -129,9 +153,26 @@ const Collection = () => {
 
         {/* MAP PRODUCTS */}
         <ErrorBoundary
-          fallbackRender={({ error }) => <div>{error.message}</div>}
-        >
-          <Suspense fallback={<div>Loading...</div>}>{dataJsx}</Suspense>
+        fallbackRender={({ error }) => (
+          <div className="text-lg text-red-600 text-center m:10 sm:m-20">
+            <p>{error.message}</p>
+            <p className="font-extrabold">--- Contact Support ---</p>
+          </div>
+        )}
+      >
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-full">
+                <BarLoader
+                  color="gray"
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                />
+              </div>
+            }
+          >
+            {dataJsx}
+          </Suspense>
         </ErrorBoundary>
       </div>
     </div>

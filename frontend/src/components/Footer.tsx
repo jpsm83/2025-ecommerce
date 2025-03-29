@@ -3,7 +3,7 @@ import logoImage from "../assets/shopify-log.png";
 const Footer = () => {
   return (
     <div>
-      <div className="ml-4 sm:ml-10 flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt-40 text-sm">
+      <div className="ml-4 sm:ml-10 flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 text-sm">
         <>
           <img
             loading="lazy"
