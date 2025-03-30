@@ -5,13 +5,23 @@ import SearchBar from "./components/SearchBar";
 
 const App = () => {
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex-grow">
+    <div className="min-h-screen flex flex-col">
+      {/* Fixed Navbar */}
+      <div className="fixed top-0 w-full z-50 bg-white border-b">
         <Navbar />
-        <SearchBar />
-        <Outlet />
       </div>
-      <Footer />
+
+      {/* Main content container */}
+      <div
+        className="flex flex-col flex-1"
+        style={{ paddingTop: "var(--navbar-height)" }}
+      >
+        <div className="flex-1">
+        <SearchBar />
+          <Outlet />
+        </div>
+        <Footer />
+      </div>
     </div>
   );
 };

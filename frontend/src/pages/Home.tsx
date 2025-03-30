@@ -4,16 +4,16 @@ import { ErrorBoundary } from "react-error-boundary";
 import BarLoader from "react-spinners/BarLoader";
 
 // api calls
-import getAllProducts from "@/api/getAllProducts";
 
 // components
 import LatestCollection from "@/components/LatestCollection";
 import OurPolicy from "@/components/OurPolicy";
 import NewsletterBox from "@/components/NewsletterBox";
 import Title from "@/components/Title";
+import getAllProducts from "@/api/getAllProducts";
 
 const Home = () => {
-  const productsPromise = getAllProducts(0, "", 20, 0, "");
+  const productsPromise = getAllProducts(20, 0);
 
   return (
     <>

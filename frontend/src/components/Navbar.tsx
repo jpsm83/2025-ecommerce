@@ -29,19 +29,19 @@ export const Navbar = () => {
       <ul className="gap-2 hidden md:flex">
         <NavLink to="./" className="flex flex-col gap-1 items-center">
           <Button variant={"ghost"}>Home</Button>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+          <hr className="w-2/4 border-none h-[1.5px]" />
         </NavLink>
         <NavLink to="./collection" className="flex flex-col gap-1 items-center">
           <Button variant={"ghost"}>Collection</Button>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+          <hr className="w-2/4 border-none h-[1.5px]" />
         </NavLink>
         <NavLink to="./about" className="flex flex-col gap-1 items-center">
           <Button variant={"ghost"}>About</Button>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+          <hr className="w-2/4 border-none h-[1.5px]" />
         </NavLink>
         <NavLink to="./contact" className="flex flex-col gap-1 items-center">
           <Button variant={"ghost"}>Contact</Button>
-          <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+          <hr className="w-2/4 border-none h-[1.5px]" />
         </NavLink>
       </ul>
       <div className="flex items-center gap-6">

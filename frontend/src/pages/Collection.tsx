@@ -2,7 +2,7 @@ import { Suspense, useEffect, useState, JSX, useContext } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 // api calls
-import getAllProducts from "@/api/getAllProducts";
+import getProductsByFilter from "@/api/getProductsByFilter";
 
 import { ChevronDown } from "lucide-react";
 import Title from "@/components/Title";
@@ -33,7 +33,7 @@ const Collection = () => {
   const selectedTitle = search.trim() !== "" ? search : "";
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams({ ...Object.fromEntries(searchParams) });
 
     params.set("category", selectedCategory);
     params.set("sorted", selectedSorted);
@@ -56,8 +56,7 @@ const Collection = () => {
 
   // Fetch products based on category and sorting
   useEffect(() => {
-    const productsPromiseByCategory = getAllProducts(
-      0,
+    const productsPromiseByCategory = getProductsByFilter(
       selectedCategory,
       20,
       0,
@@ -71,15 +70,6 @@ const Collection = () => {
       />
     );
   }, [selectedCategory, selectedSorted, selectedTitle]);
-
-  // Handle category and sorting change
-  const handleFilterChange = (newCategory: string, newSorted: string) => {
-    const params = new URLSearchParams({
-      category: newCategory,
-      sorted: newSorted,
-    });
-    navigate(`?${params.toString()}`);
-  };
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 md:px-10">
@@ -118,7 +108,6 @@ const Collection = () => {
                   className="w-3"
                   value={category}
                   checked={category === selectedCategory}
-                  onChange={() => handleFilterChange(category, selectedSorted)} // Call the consolidated handler
                 />
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </Link>
@@ -141,9 +130,6 @@ const Collection = () => {
           <select
             className="border-2 border-gray-300 text-sm px-2"
             value={selectedSorted}
-            onChange={(e) =>
-              handleFilterChange(selectedCategory, e.target.value)
-            } // Call the consolidated handler
           >
             <option value="relevant">Sort by: Relevant</option>
             <option value="lowToHigh">Sort by: Low to High</option>
@@ -153,13 +139,13 @@ const Collection = () => {
 
         {/* MAP PRODUCTS */}
         <ErrorBoundary
-        fallbackRender={({ error }) => (
-          <div className="text-lg text-red-600 text-center m:10 sm:m-20">
-            <p>{error.message}</p>
-            <p className="font-extrabold">--- Contact Support ---</p>
-          </div>
-        )}
-      >
+          fallbackRender={({ error }) => (
+            <div className="text-lg text-red-600 text-center m:10 sm:m-20">
+              <p>{error.message}</p>
+              <p className="font-extrabold">--- Contact Support ---</p>
+            </div>
+          )}
+        >
           <Suspense
             fallback={
               <div className="flex justify-center items-center h-full">
