@@ -2,7 +2,7 @@ import heroImage from "../assets/present.jpg";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col sm:flex-row border border-gray-400">
+    <div className="flex flex-col sm:flex-row border border-gray-400 mt-10 md:mt-20">
       {/* Hero left side */}
       <div className="w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0">
         <div className="text-[#414141]">

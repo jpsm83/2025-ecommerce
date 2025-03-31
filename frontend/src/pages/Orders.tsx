@@ -14,7 +14,7 @@ const Orders = () => {
   const { cartItems } = shopContext;
 
   return (
-    <div className="border-t pt-16">
+    <div className="pt-16">
       <div className="text-2xl">
         <Title text1="MY" text2="ORDERS" />
       </div>
