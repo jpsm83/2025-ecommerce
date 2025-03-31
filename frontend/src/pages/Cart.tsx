@@ -1,22 +1,30 @@
 import CardTotal from "@/components/CardTotal";
 import Title from "@/components/Title";
+import { Button } from "@/components/ui/button";
 import { ShopContext } from "@/context/ShopContext";
-import { Delete, Trash2 } from "lucide-react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Trash2 } from "lucide-react";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Cart = () => {
   const shopContext = useContext(ShopContext);
+  const navigate = useNavigate();
 
   if (!shopContext) {
-    throw new Error("ShopContext is not available. Ensure it is provided.");
+    throw new Error("ShopContext is not provided");
   }
 
   const { removeFromCart, cartItems, updateProductQuantity } = shopContext;
 
+  useEffect(() => {
+    if(cartItems.length === 0){
+      navigate("/", { replace: true });
+    }
+  }, [cartItems, navigate]);
+
   return (
-    <div className="border-t pt-14 mx-6 sm:mx-12 md:mx-20">
+    <div className="border-t pt-14">
       <div className="text-2xl mb-3">
         <Title text1="YOUR" text2="CART" />
       </div>
@@ -87,6 +95,9 @@ const Cart = () => {
       <div className="flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
           <CardTotal />
+          <div className="w-full text-end">
+              <Button onClick={() => navigate("/place-order")} className="my-8 py-3">PROCEED TO CHECKOUT</Button>
+          </div>
         </div>
       </div>
     </div>

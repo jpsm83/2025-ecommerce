@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Search, User, ShoppingBasket, Menu, ChevronDown } from "lucide-react";
 import { useContext, useState } from "react";
@@ -8,13 +8,16 @@ import { ShopContext } from "@/context/ShopContext";
 export const Navbar = () => {
   const [menuBurgerVisible, setMenuBurgerVisible] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+  
+  // context
   const shopContext = useContext(ShopContext);
-
   if (!shopContext) {
     throw new Error("ShopContext is not provided");
   }
-
   const { setShowSearch, setSearch, getCardCount } = shopContext;
+
+  const getCardCountResult = getCardCount();
 
   return (
     <div className="flex justify-between items-center pr-10">
@@ -54,7 +57,7 @@ export const Navbar = () => {
           }}
         />
         <div className="group relative">
-          <User size={20} className="text-gray-700 cursor-pointer" />
+          <User onClick={() => navigate("/login")} size={20} className="text-gray-700 cursor-pointer" />
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="cursor-pointer hover:text-black">My Profile</p>
@@ -63,12 +66,14 @@ export const Navbar = () => {
             </div>
           </div>
         </div>
-        <Link to="./cart" className="relative">
-          <ShoppingBasket size={20} />
-          <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            {getCardCount()}
-          </p>
-        </Link>
+        <div className={`${getCardCountResult === 0 ? "hidden" : "block"}`}>
+          <Link to="./cart" className="relative">
+            <ShoppingBasket size={20} />
+            <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+              {getCardCountResult}
+            </p>
+          </Link>
+        </div>
         <Menu
           size={20}
           onClick={() => setMenuBurgerVisible(true)}

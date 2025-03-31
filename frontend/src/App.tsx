@@ -17,8 +17,10 @@ const App = () => {
         style={{ paddingTop: "var(--navbar-height)" }}
       >
         <div className="flex-1">
-        <SearchBar />
-          <Outlet />
+          <SearchBar />
+          <div className="mx-6 sm:mx-12 md:mx-20">
+            <Outlet />
+          </div>
         </div>
         <Footer />
       </div>

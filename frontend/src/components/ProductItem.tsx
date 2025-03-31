@@ -1,7 +1,7 @@
 import { IProduct } from "@/lib/interfaces/IProduct";
 import { Star } from "lucide-react";
 import { Suspense, use, useState, useMemo, useEffect, useContext } from "react";
-import { categories, clothesSizes } from "@/lib/enuns";
+import { clothesSizes } from "@/lib/enuns";
 import { Button } from "./ui/button";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import RelatedProducts from "./RelatedProducts";
@@ -25,7 +25,7 @@ const ProductItem = ({
   // context
   const shopContext = useContext(ShopContext);
   if (!shopContext) {
-    throw new Error("ShopContext is not available. Ensure it is provided.");
+    throw new Error("ShopContext is not provided");
   }
   const { addToCart } = shopContext;
   
@@ -41,7 +41,7 @@ const ProductItem = ({
 
     if (
       !searchParams.get("size") &&
-      !categories.includes(product.category.slug)
+      product.category.slug !== "clothes"
     ) {
       params.set("size", "M");
     }
@@ -104,7 +104,7 @@ const ProductItem = ({
           <p className="mt-5 text-3xl font-medium">€{product.price}</p>
           <p className="mt-5 text-gray-500 md:w-4/5">{product.description}</p>
 
-          {!categories.includes(product.category.slug) && (
+          {(product.category.slug === "clothes") && (
             <div className="flex flex-col gap-4 my-8">
               <p>Select Size</p>
               <div className="flex gap-2">

@@ -72,7 +72,7 @@ const Collection = () => {
   }, [selectedCategory, selectedSorted, selectedTitle]);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t px-4 md:px-10">
+    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
       {/* FILTER OPTIONS */}
       <div className="min-w-60">
         <p

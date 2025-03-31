@@ -6,7 +6,7 @@ const CardTotal = () => {
   // context
   const shopContext = useContext(ShopContext);
   if (!shopContext) {
-    throw new Error("ShopContext is not available. Ensure it is provided.");
+    throw new Error("ShopContext is not provided");
   }
   const { totalPriceProducts, deliveryFee } = shopContext;
 

@@ -6,7 +6,7 @@ const Title = (props: { text1: string; text2: string }) => {
         {text1} <span className="text-gray-700 font-medium">{text2}</span>
       </p>
 
-      <p className="sm:hidden lg:inline w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
+      <p className="lg:inline w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
     </div>
   );
 };

@@ -20,7 +20,7 @@ function Product() {
   return (
     <ErrorBoundary
         fallbackRender={({ error }) => (
-          <div className="text-lg text-red-600 text-center m:10 sm:m-20">
+          <div className="text-lg text-red-600 text-center">
             <p>{error.message}</p>
             <p className="font-extrabold">--- Contact Support ---</p>
           </div>
