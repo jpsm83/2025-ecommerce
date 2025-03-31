@@ -13,18 +13,18 @@ import { ShopContext } from "@/context/ShopContext";
 import BarLoader from "react-spinners/BarLoader";
 
 const Collection = () => {
-  const shopContext = useContext(ShopContext);
-
-  if (!shopContext) {
-    throw new Error("ShopContext is not provided");
-  }
-
-  const { search } = shopContext;
-
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [dataJsx, setDataJsx] = useState<JSX.Element | null>(null);
 
-  const [searchParams] = useSearchParams(); // initialize the search params hook
+  // context
+  const shopContext = useContext(ShopContext);
+  if (!shopContext) {
+    throw new Error("ShopContext is not provided");
+  }
+  const { search } = shopContext;
+
+ // search params and navigation
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   // get initial values
@@ -52,7 +52,7 @@ const Collection = () => {
     selectedCategory,
     selectedSorted,
     selectedTitle,
-  ]); // Include search to react to changes
+  ]);
 
   // Fetch products based on category and sorting
   useEffect(() => {
@@ -108,6 +108,7 @@ const Collection = () => {
                   className="w-3"
                   value={category}
                   checked={category === selectedCategory}
+                  onChange={(e) => selectedCategory === e.target.value}
                 />
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </Link>
@@ -130,6 +131,7 @@ const Collection = () => {
           <select
             className="border-2 border-gray-300 text-sm px-2"
             value={selectedSorted}
+            onChange={(e) => selectedSorted === e.target.value}
           >
             <option value="relevant">Sort by: Relevant</option>
             <option value="lowToHigh">Sort by: Low to High</option>

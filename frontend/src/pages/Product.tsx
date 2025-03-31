@@ -19,24 +19,24 @@ function Product() {
 
   return (
     <ErrorBoundary
-      fallbackRender={({ error }) => (
-        <div className="text-lg text-red-600 text-center m:10 sm:m-20">
-          <p>{error.message}</p>
-          <p className="font-extrabold">--- Contact Support ---</p>
-        </div>
-      )}
-    >
-      <Suspense
-        fallback={
-          <div className="flex justify-center items-center h-full">
-            <BarLoader
-              color="gray"
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
+        fallbackRender={({ error }) => (
+          <div className="text-lg text-red-600 text-center m:10 sm:m-20">
+            <p>{error.message}</p>
+            <p className="font-extrabold">--- Contact Support ---</p>
           </div>
-        }
+        )}
       >
+        <Suspense
+          fallback={
+            <div className="flex justify-center items-center h-full">
+              <BarLoader
+                color="gray"
+                aria-label="Loading Spinner"
+                data-testid="loader"
+              />
+            </div>
+          }
+        >
         {dataJsx}
       </Suspense>
     </ErrorBoundary>

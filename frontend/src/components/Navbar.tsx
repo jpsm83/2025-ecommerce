@@ -14,7 +14,7 @@ export const Navbar = () => {
     throw new Error("ShopContext is not provided");
   }
 
-  const { setShowSearch, setSearch } = shopContext;
+  const { setShowSearch, setSearch, getCardCount } = shopContext;
 
   return (
     <div className="flex justify-between items-center pr-10">
@@ -66,7 +66,7 @@ export const Navbar = () => {
         <Link to="./cart" className="relative">
           <ShoppingBasket size={20} />
           <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-            10
+            {getCardCount()}
           </p>
         </Link>
         <Menu

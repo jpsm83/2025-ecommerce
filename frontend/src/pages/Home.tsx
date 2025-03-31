@@ -13,7 +13,7 @@ import Title from "@/components/Title";
 import getAllProducts from "@/api/getAllProducts";
 
 const Home = () => {
-  const productsPromise = getAllProducts(20, 0);
+  const productsPromise = getAllProducts();
 
   return (
     <>

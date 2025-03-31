@@ -1,12 +1,13 @@
 import { IProduct } from "@/lib/interfaces/IProduct";
 
 const getAllProducts = async (
-  limit?: number,
-  offset?: number
+  // limit?: number,
+  // offset?: number
 ): Promise<IProduct[]> => {
   // https://fakeapi.platzi.com/
   // https://api.escuelajs.co/api/v1/products/?limit=10&offset=0
-  const fetchUrl = `https://api.escuelajs.co/api/v1/products/?limit=${limit}&offset=${offset}`;
+  const fetchUrl = `https://api.escuelajs.co/api/v1/products/`;
+  // const fetchUrl = `https://api.escuelajs.co/api/v1/products/?limit=${limit}&offset=${offset}`;
 
   try {
     const response = await fetch(fetchUrl);

@@ -15,6 +15,8 @@ import Orders from "./pages/Orders.tsx";
 import PlaceOrder from "./pages/PlaceOrder.tsx";
 import Product from "./pages/Product.tsx";
 import ShopContextProvider from "./context/ShopContext.tsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <ToastContainer />
     <ShopContextProvider>
       <RouterProvider router={router} />
     </ShopContextProvider>

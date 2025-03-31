@@ -1,6 +1,6 @@
 import { IProduct } from "@/lib/interfaces/IProduct";
 import { Star } from "lucide-react";
-import { Suspense, use, useState, useMemo, useEffect } from "react";
+import { Suspense, use, useState, useMemo, useEffect, useContext } from "react";
 import { categories, clothesSizes } from "@/lib/enuns";
 import { Button } from "./ui/button";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -8,6 +8,7 @@ import RelatedProducts from "./RelatedProducts";
 import { ErrorBoundary } from "react-error-boundary";
 import BarLoader from "react-spinners/BarLoader";
 import getProductsByCategorySlug from "@/api/getProductsByCategorySlug";
+import { ShopContext } from "@/context/ShopContext";
 
 const ProductItem = ({
   productPromise,
@@ -16,13 +17,23 @@ const ProductItem = ({
   productPromise: Promise<IProduct>;
   // selectedSize: string;
 }) => {
-  const product = use(productPromise);
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string | null>(null);
 
+  // product
+  const product = use(productPromise);
+  
+  // context
+  const shopContext = useContext(ShopContext);
+  if (!shopContext) {
+    throw new Error("ShopContext is not available. Ensure it is provided.");
+  }
+  const { addToCart } = shopContext;
+  
+// search params and navigate - only for clothes where sizes can be selected
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-  const selectedSize = searchParams.get("size") || "M";
+  const selectedSize = searchParams.get("size");
 
   useEffect(() => {
     setImage(product.images[0]);
@@ -32,7 +43,7 @@ const ProductItem = ({
       !searchParams.get("size") &&
       !categories.includes(product.category.slug)
     ) {
-      params.set("size", selectedSize);
+      params.set("size", "M");
     }
 
     navigate(`?${params.toString()}`, { replace: true });
@@ -67,7 +78,11 @@ const ProductItem = ({
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img src={image} alt="Selected Product" className="w-full h-auto" />
+            <img
+              src={image || product.images[0]}
+              alt="Selected Product"
+              className="w-full h-auto"
+            />
           </div>
         </div>
 
@@ -110,7 +125,19 @@ const ProductItem = ({
             </div>
           )}
 
-          <Button className="mt-4">ADD TO CART</Button>
+          <Button
+            className="mt-4"
+            onClick={() => {
+              if (product) {
+                addToCart(product, selectedSize ?? null);
+              } else {
+                console.error("Product is not resolved yet.");
+              }
+            }}
+          >
+            ADD TO CART
+          </Button>
+
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original product.</p>
