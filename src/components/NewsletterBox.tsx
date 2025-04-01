@@ -1,6 +1,10 @@
+import { toast } from "react-toastify";
+import { Button } from "./ui/button";
+
 const NewsletterBox = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    toast.info("You been subscribed")
   };
 
   return (
@@ -22,12 +26,7 @@ const NewsletterBox = () => {
           placeholder="Enter your email"
           className="w-full sm:flex-1 outline-none"
         />
-        <button
-          type="submit"
-          className="bg-black text-white text-xs px-10 py-4"
-        >
-          SUBSCRIBE
-        </button>
+        <Button type="submit">SUBSCRIBE</Button>
       </form>
     </div>
   );

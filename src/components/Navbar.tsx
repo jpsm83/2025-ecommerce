@@ -4,12 +4,13 @@ import { Search, User, ShoppingBasket, Menu, ChevronDown } from "lucide-react";
 import { useContext, useState } from "react";
 import logoImage from "../assets/shopify-log.png";
 import { ShopContext } from "@/context/ShopContext";
+import { toast } from "react-toastify";
 
 export const Navbar = () => {
   const [menuBurgerVisible, setMenuBurgerVisible] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  
+
   // context
   const shopContext = useContext(ShopContext);
   if (!shopContext) {
@@ -54,15 +55,50 @@ export const Navbar = () => {
           onClick={() => {
             setShowSearch(true);
             setSearch("");
+            window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
+            toast.info("State has only one source of true that is the URL (no state managed on front), debounce (1 second) been applyed to minimize the API calls, we fetch only the first 20 responses (or less), browser wont be overload with data, pagination is under development")
           }}
         />
         <div className="group relative">
-          <User onClick={() => navigate("/login")} size={20} className="text-gray-700 cursor-pointer" />
+          <User
+            size={20}
+            className="text-gray-700 cursor-pointer"
+          />
           <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
-              <p className="cursor-pointer hover:text-black">My Profile</p>
-              <p className="cursor-pointer hover:text-black">Orders</p>
-              <p className="cursor-pointer hover:text-black">Logout</p>
+              <NavLink
+                to="/no-found"
+                onClick={() => toast.info("My profile page under development")}
+              >
+                <p className="cursor-pointer hover:text-black">My Profile</p>
+              </NavLink>
+              {getCardCountResult > 0 && (
+                <NavLink to="/orders">
+                  <p className="cursor-pointer hover:text-black">Orders</p>
+                </NavLink>
+              )}
+              <NavLink
+                to="/"
+                onClick={() =>
+                  toast.info(
+                    "Logout function is not developed yet, at the moment this project is fully Frontend"
+                  )
+                }
+              >
+                <p className="cursor-pointer hover:text-black">Logout</p>
+              </NavLink>
+              <NavLink
+                to="/login"
+                onClick={() => {
+                  toast.info(
+                    "Login page is also static one till the backend be fully developed"
+                  );
+                  navigate("/login")
+                }
+                }
+              >
+                <p className="cursor-pointer hover:text-black">Login</p>
+              </NavLink>
             </div>
           </div>
         </div>

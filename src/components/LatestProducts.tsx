@@ -4,7 +4,7 @@ import noFound from "../assets/no-found.webp";
 import ProductCard from "./ProductCard";
 
 // Server-side component that calls `getProducts`
-const LatestCollection = ({
+const LatestProducts = ({
   productsPromise,
   sort,
 }: {
@@ -43,4 +43,4 @@ const LatestCollection = ({
   );
 };
 
-export default LatestCollection;
+export default LatestProducts;

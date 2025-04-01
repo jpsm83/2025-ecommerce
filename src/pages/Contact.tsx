@@ -2,6 +2,7 @@ import Title from "@/components/Title";
 import contactUsImage from "../assets/contact-us.jpg";
 import { Button } from "@/components/ui/button";
 import NewsletterBox from "@/components/NewsletterBox";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   return (
@@ -16,7 +17,7 @@ const Contact = () => {
           alt="Contact us image"
         />
         <div className="flex flex-col justify-center items-start gap-6">
-          <p className="font-semibold text-xl text-gray-600">Our Store</p>
+          <p className="font-semibold text-xl text-gray-600">Joao Machado</p>
           <p className="text-gray-500">
             Carrer Mallorca 587
             <br />
@@ -33,7 +34,7 @@ const Contact = () => {
           <p className="text-gray-500">
             Learn more about our teams and job openings.
           </p>
-          <Button>Explore Jobs</Button>
+          <Button onClick={() => toast.info("Explore new jobs page under development")}>Explore Jobs</Button>
         </div>
       </div>
       <NewsletterBox />

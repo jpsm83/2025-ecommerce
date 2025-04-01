@@ -6,11 +6,12 @@ import getProductsByFilter from "@/api/getProductsByFilter";
 
 import { ChevronDown } from "lucide-react";
 import Title from "@/components/Title";
-import LatestCollection from "@/components/LatestCollection";
 import { categories } from "@/lib/enuns";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { ShopContext } from "@/context/ShopContext";
 import BarLoader from "react-spinners/BarLoader";
+import LatestProducts from "@/components/LatestProducts";
+import { toast } from "react-toastify";
 
 const Collection = () => {
   const [showFilter, setShowFilter] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const Collection = () => {
   }
   const { search } = shopContext;
 
- // search params and navigation
+  // search params and navigation
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -64,7 +65,7 @@ const Collection = () => {
     );
 
     setDataJsx(
-      <LatestCollection
+      <LatestProducts
         productsPromise={productsPromiseByCategory}
         sort={selectedSorted}
       />
@@ -101,6 +102,11 @@ const Collection = () => {
                 })}`}
                 key={category}
                 className="flex gap-2"
+                onClick={() =>
+                  toast.info(
+                    "State has only one source of true that is the URL (no state managed on front), filter will call the API with the proper query (no filters on front), we fetch only the first 20 responses (or less), browser wont be overload with data, pagination is under development"
+                  )
+                }
               >
                 <input
                   type="radio"
@@ -131,7 +137,13 @@ const Collection = () => {
           <select
             className="border-2 border-gray-300 text-sm px-2"
             value={selectedSorted}
-            onChange={(e) => selectedSorted === e.target.value}
+            onChange={(e) => {
+              const params = new URLSearchParams({
+                ...Object.fromEntries(searchParams),
+              });
+              params.set("sorted", e.target.value);
+              navigate(`?${params.toString()}`, { replace: true });
+            }}
           >
             <option value="relevant">Sort by: Relevant</option>
             <option value="lowToHigh">Sort by: Low to High</option>

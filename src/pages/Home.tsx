@@ -6,11 +6,11 @@ import BarLoader from "react-spinners/BarLoader";
 // api calls
 
 // components
-import LatestCollection from "@/components/LatestCollection";
 import OurPolicy from "@/components/OurPolicy";
 import NewsletterBox from "@/components/NewsletterBox";
 import Title from "@/components/Title";
 import getAllProducts from "@/api/getAllProducts";
+import LatestProducts from "@/components/LatestProducts";
 
 const Home = () => {
   const productsPromise = getAllProducts();
@@ -21,10 +21,7 @@ const Home = () => {
       <div className="text-center py-8 text-3xl mt-10">
         <Title text1="BEST" text2="OFFERS" />
         <p className="w-3/4 m-auto text-xs sm:text:sm md:text-base text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nostrum
-          sunt neque reiciendis suscipit, animi commodi eveniet corrupti odio
-          eius obcaecati harum iure aperiam quam quia, debitis numquam possimus
-          quis!
+          This is a Frontend personal project focus in how an ecommerce would be display. Data been catch from an external API <a href="https://fakeapi.platzi.com" className="font-extrabold text-lg">https://fakeapi.platzi.com</a> and display in a neet simple and clear way for the user. (Pagination feture is under development)
         </p>
       </div>
 
@@ -47,7 +44,7 @@ const Home = () => {
             </div>
           }
         >
-          <LatestCollection productsPromise={productsPromise} />
+          <LatestProducts productsPromise={productsPromise} />
         </Suspense>
       </ErrorBoundary>
       <OurPolicy />
